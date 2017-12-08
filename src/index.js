@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, shell, session } from 'electron';
 import fs from 'fs-extra';
 import path from 'path';
 
@@ -165,7 +165,11 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  session.defaultSession.allowNTLMCredentialsForDomains('*');
+
+  createWindow();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
